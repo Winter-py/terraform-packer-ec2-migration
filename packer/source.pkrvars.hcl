@@ -3,7 +3,7 @@ variable "region" {
   default = "eu-west-2"
 }
 
-variable "name" {
+variable "Name" {
   type    = string
   default = "App"
 }
