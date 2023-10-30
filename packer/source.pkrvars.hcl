@@ -10,5 +10,8 @@ variable "name" {
 
 variable "source" {
   type    = string
-  default = "S3//"
+}
+
+variable "Secret_Arn" {
+  type    = string
 }
