@@ -11,7 +11,7 @@ packer {
 locals {secret = aws_secretsmanager("${var.Secret_Arn}","Password")}
 
 source "amazon-ebs" "firstrun-windows" {
-  ami_name             = "${var.name}-migrated-app"
+  ami_name             = "${var.Name}-migrated-app"
   communicator         = "winrm"
   instance_type        = "t3.large"
   region               = "${var.region}"
@@ -21,7 +21,7 @@ source "amazon-ebs" "firstrun-windows" {
 
 
   run_tags = {
-    Name       = "${var.name}"
+    Name       = "${var.Name}"
     Automation = "Migration"
   }
   metadata_options {
@@ -29,7 +29,7 @@ source "amazon-ebs" "firstrun-windows" {
   }
   source_ami_filter {
     filters = {
-      name                = "Windows_Server-2022-English-Full-SQL_2019_Express*"
+      Name                = "Windows_Server-2022-English-Full-SQL_2019_Express*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
@@ -42,7 +42,7 @@ source "amazon-ebs" "firstrun-windows" {
 
 
   tags = {
-    Name        = "${var.name}"
+    Name        = "${var.Name}"
     Environment = "${var.Environment}"
     Date        = "${local.timestamp}"
   }
@@ -51,7 +51,7 @@ source "amazon-ebs" "firstrun-windows" {
 #build block invokes sources and runs provisioning steps on them.
 #Sample_IIS_Server_Setup is not need if you already have a golden image.
 build {
-  name    = "packer-build"
+  Name    = "packer-build"
   sources = ["source.amazon-ebs.firstrun-windows"]
 
   provisioner "powershell" {
