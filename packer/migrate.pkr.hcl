@@ -7,6 +7,9 @@ packer {
   }
 }
 
+
+locals {secret = aws_secretsmanager("${var.Secret_Arn}","Password")}
+
 source "amazon-ebs" "firstrun-windows" {
   ami_name             = "${var.name}-migrated-app"
   communicator         = "winrm"
@@ -43,4 +46,27 @@ source "amazon-ebs" "firstrun-windows" {
     Environment = "${var.Environment}"
     Date        = "${local.timestamp}"
   }
+}
+
+#build block invokes sources and runs provisioning steps on them.
+#Sample_IIS_Server_Setup is not need if you already have a golden image.
+build {
+  name    = "packer-build"
+  sources = ["source.amazon-ebs.firstrun-windows"]
+
+  provisioner "powershell" {
+    script = "./Scripts/Sample_IIS_Server_Setup.ps1"  
+  }
+
+  provisioner "file" {
+    destination = "C:\\Packer\\RestoreInstance.ps1"
+    source      = "./Scripts/RestoreInstance.ps1"
+  }
+
+  provisioner "powershell" {
+    elevated_user     = "Administrator"
+    elevated_password = "${local.secret}"
+    inline            = ["powershell C:\\Packer\\RestoreInstance.ps1 -SourceLocation ${var.source}"]
+  }
+
 }
