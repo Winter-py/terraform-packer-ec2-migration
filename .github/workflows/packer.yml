@@ -26,6 +26,10 @@ jobs:
           role-to-assume: arn:aws:iam::1000000000:role/Packer_deploy_role # Add the role created by the terraform setup
           aws-region: eu-west-2
 
+      - name: Set Working Directory
+        run: cd Packer/
+        working-directory: Packer/
+
       # fix backwards incompatibilities in template
       - name: Initialise Template
         uses: hashicorp/packer-github-actions@master
