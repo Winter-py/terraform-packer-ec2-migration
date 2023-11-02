@@ -27,8 +27,8 @@ jobs:
           aws-region: eu-west-2
 
       - name: Set Working Directory
-        run: cd Packer/
-        working-directory: Packer/
+        run: cd Packer
+        working-directory: Packer
 
       # fix backwards incompatibilities in template
       - name: Initialise Template
