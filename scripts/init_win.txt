@@ -1,7 +1,7 @@
 <powershell>
 
 Import-Module -Name AWSPowerShell
-$SecretValueAdmin = Get-SECSecretValue -SecretId EC2_Instance_Pwd -Select *
+$SecretValueAdmin = Get-SECSecretValue -SecretId WindowsPwd -Select *
 $AdminPassword = $($SecretValueAdmin.SecretString.Split(": }"))[1]
 
 
