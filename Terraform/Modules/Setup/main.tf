@@ -59,5 +59,5 @@ EOF
 
 resource "aws_iam_instance_profile" "ec2_profile" {
   name = "Migration_Instance_Profile"
-  role = aws_iam_role.Customerinstance_role.name
+  role = aws_iam_role.Migration_Instance_Role.name
 }
